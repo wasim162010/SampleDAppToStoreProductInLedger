@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>home page</title>
+
+        <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
+
+        <script type = "text/javascript" language = "javascript">
+
+            $(document).ready(function() {
+
+                $("#add").click(function(event){
+                    
+                    let url = "/product";
+
+                    $.get(url, function (data) {
+                        console.log("adding product");
+                    })
+
+
+
+                });
+
+                $("#events").click(function(event){
+                    
+                    let url = "/events";
+
+                    $.get(url, function (data) {
+                        console.log("adding event");
+                    })
+
+
+
+                });
+
+
+            });
+
+        </script>
+
+    </head>
+  
+ 
+
+</html>
+<body>
+    <h1>home page</h1>
+
+    
+    <input type = "button" id = "add" value = "Add product" /> 
+    <input type = "button" id = "events" value = "All Events" /> 
+  
+</body>

@@ -1,0 +1,25 @@
+{
+  "name": "IotaFoundationAssignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wasim162010/IotaFoundationAssignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wasim162010/IotaFoundationAssignment/issues"
+  },
+  "homepage": "https://github.com/wasim162010/IotaFoundationAssignment#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.9",
+    "web3": "^1.3.6"
+  }
+}

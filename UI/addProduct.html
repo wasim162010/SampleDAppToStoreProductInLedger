@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Add product</title>
+        
+        <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
+
+        <script type = "text/javascript" language = "javascript">
+
+            $(document).ready(function() {
+
+                $("#addbtn").click(function(event){
+                    
+                    let url = "v1/product/put";
+
+                    $.put(url, function (data) {
+                        console.log("adding product");
+                    })
+
+
+
+                });
+
+            });
+
+        </script>
+
+    </head>
+</html>
+<body>
+  
+
+    <div> 
+       
+        <br/>
+        Name <input type="text" id="name" /></t>
+        Cost <input type = "text" id = "cost" /> </t>
+        specs <input type = "text" id = "specs" /> </t>
+        Manufacturer <input type = "text" id = "manufacturer" /> </t>
+        Owner address <input type = "text" id = "manufacturer" /> </t>
+        Date <input type="date" id="date"> </t> </t>
+        <br />
+        Add Product </br />
+        <input type = "button" id = "addbtn" value = "Add Product" /> 
+    
+    </div>
+
+</body>

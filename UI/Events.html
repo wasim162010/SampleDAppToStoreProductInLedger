@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <title>Add Product</title>
+
+        <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
+
+        <script type = "text/javascript" language = "javascript">
+
+            $(document).ready(function() {
+
+                $("#allEvents").click(function(event){
+                    
+                    let url = "v1/events/get";
+
+                    $.get(url, function (data) {
+                        console.log("adding product");
+                    })
+
+
+
+                });
+
+                $("#latestEvent").click(function(event){
+                    
+                    let url = "v1/event/get";
+
+                    $.get(url, function (data) {
+                        console.log("adding product");
+                    })
+
+
+
+                });
+
+            });
+
+        </script>
+
+    </head>
+</html>
+<body>
+   
+
+    <br />
+    <div>
+        Select Product ID 
+        <select name="productIDs" id="ids">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="audi">Audi</option>
+          </select></t>
+          <input type = "button" id = "btnAllEvents" value = "View all events" /> </t>
+         </br />
+          <textarea id="allEvents" name="eventsTxtArea" rows="4" cols="50" />
+    </div>
+
+
+    <br />
+
+    <div>
+        Select Product ID <input type="text" id="name" />
+        <select name="productIDs" id="ids">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="audi">Audi</option>
+          </select></t>
+          <input type = "button" id = "btnAllEvent" value = "View most recent event" /> </t>
+          Latest event </br />
+          <textarea id="latestEvent" name="eventTxtArea" rows="4" cols="50">
+    </div>
+
+</body>
+
+
+
+<!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select -->
+
+    <!-- string _product_name;
+        uint _product_cost;
+        string _product_specs; -->
+        <!-- string _product_review; -->
+        <!-- string manufacturer;
+        address _product_owner;
+        uint _manufacture_date; -->
