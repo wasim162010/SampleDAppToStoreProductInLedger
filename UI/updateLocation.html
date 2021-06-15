@@ -14,6 +14,7 @@
                         
                 $.get(loadurl, function (data) {
                             for (i = 0; i < data.length; i++) {
+                                console.log(data);
                                 var elem = '<option>' + data[i] + '</option>'
                                 $('#pidId').append(elem);
                             }
@@ -52,7 +53,7 @@
 
                 <center>
                     <h1> 
-                        Fetch current/all location
+                        Update product location
                     </h1>
                         Select Product ID <select name="productIDs" id="pidId"></select></t> 
                         Zipcode <input type="text" id="zipcode" /></t> 

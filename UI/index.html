@@ -8,31 +8,35 @@
         <script type = "text/javascript" language = "javascript">
 
             $(document).ready(function() {
+
+                $.get('/v1/page/welcome', function (data) {
+                            $('#loader').html(data);
+                        })
  
                 $("#proceed").click(function(event){
                   
                     var selVal = $('#option').val();
-                    console.log(selVal);
+                  
 
                     if(selVal == "Add Product") {
-                        console.log("if");
+                        
 
                         $.get('/v1/page/product', function (data) {
                             $('#loader').html(data);
                         })
                     } else if(selVal == "View Current/all product locations") {
-                        console.log("else if");
+                      
 
-                        $.get('/v1/page/events', function (data) {
+                        $.get('/v1/page/location', function (data) {
                             $('#loader').html(data);
                         })
                     } else if(selVal == "Update location") {
                         console.log("else if");
 
-                        $.get('/v1/page/location', function (data) {
+                        $.get('/v1/page/location/update', function (data) {
                             $('#loader').html(data);
                         })
-                    } else {///v1/page/welcome
+                    } else {
                     
                         $.get('/v1/page/welcome', function (data) {
                             $('#loader').html(data);

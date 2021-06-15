@@ -3,12 +3,12 @@ pragma experimental ABIEncoderV2;
 
 contract SupplyChain {
    
-    uint public _p_id =0;
-    uint public _u_id =0;
-    uint public _t_id=0;
+    uint  _p_id =1;
+  
 
     address _owner;
-     struct product {
+    
+    struct product {
 
         string _product_name;
         uint   _product_cost;
@@ -26,7 +26,7 @@ contract SupplyChain {
          uint _product_id;
          string zipcode;
          string currentAddr;
-         string locType;// wareshouse, seller, transit
+         string locType;// for ex : wareshouse, seller, transit
        
 
     }
@@ -57,15 +57,6 @@ contract SupplyChain {
     constructor() public {
        
         _owner = msg.sender;
-
-        Location memory loc1 = Location(121, "_zipcode1", "_currentAddr1", "_locType1");
-        Location memory loc2 = Location(122, "_zipcode2", "_currentAddr2", "_locType2");
-
-        tracks[101].push(loc1);
-        tracks[101].push(loc2);
-
-        currentLocation[101] = loc1;
-
     }
 
     function newProduct(string memory name ,uint p_cost ,string memory p_specs ,string memory manufacturer, string memory _zipcode, string memory _addr,
@@ -80,7 +71,7 @@ contract SupplyChain {
             products[product_id]._product_date = now;
             products[product_id]._product_zipcode =_zipcode;
             products[product_id]._product_address =_addr;
-            products[product_id]._product_location = _locType; //assuming product owner enter the product.
+            products[product_id]._product_location = _locType; 
 
             prodToOwnerMapping[product_id] == msg.sender;
 
@@ -100,8 +91,6 @@ contract SupplyChain {
     function getProduct_details(uint prod_id) public view returns (product memory) {
      
             require(prodToOwnerMapping[prod_id] == msg.sender);
-            require(_owner == msg.sender);
-            
             return products[prod_id];
 
     }
@@ -109,18 +98,15 @@ contract SupplyChain {
 
     function getRecentProductLocation(uint _pId) public view returns(uint, string memory, string memory, string memory) {
             
-           // require(prodToOwnerMapping[_pId] == msg.sender);
-            //require(_owner == msg.sender);
+            require(prodToOwnerMapping[_pId] == msg.sender);
             return (currentLocation[_pId]._product_id, currentLocation[_pId].zipcode, currentLocation[_pId].currentAddr,  currentLocation[_pId].locType) ;     
     }
     
    
    function getAllProductLocation(uint _pId) public view returns(Location[] memory) {
 
-          //  require(prodToOwnerMapping[_pId] == msg.sender);
-            //require(_owner == msg.sender);
+            require(prodToOwnerMapping[_pId] == msg.sender);
             return tracks[_pId];
-            //  return (currentLocation[_pId]._product_id, currentLocation[_pId].zipcode, currentLocation[_pId].currentAddr,  currentLocation[_pId].locType) ;     
     }
 
     function getAllProductIDs() public view returns(uint256[] memory) {
@@ -129,7 +115,7 @@ contract SupplyChain {
 
     }
 
-    function updateProductLocation(uint _pId, string memory _zipcode, string memory _currentAddr, string _locType) public returns(uint) {
+    function updateProductLocation(uint _pId, string memory _zipcode, string memory _currentAddr, string memory _locType) public returns(uint) {
 
         Location memory _updatedLoc = Location(_pId, _zipcode, _currentAddr, _locType);
         

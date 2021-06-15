@@ -4,10 +4,6 @@ var path = require('path');
 const Web3 = require('web3');
 const url = require('url');
 
-
-
-
-
 app.listen(8081, () => console.log("Server running..."));
 
 app.get('/', async(req, res) =>{
@@ -21,35 +17,36 @@ app.get('/v1/page/product', async(req, res) =>{
 });
 
 
-app.get('/v1/page/events', async(req, res) =>{
-    console.log('events');
-    res.sendFile(path.join(__dirname + '/Events.html'));
+app.get('/v1/page/location', async(req, res) =>{
+    console.log('location');
+    res.sendFile(path.join(__dirname + '/trackLocation.html'));
 	
  });
 
- app.get('/v1/page/welcome', async(req, res) =>{
+app.get('/v1/page/welcome', async(req, res) =>{
   console.log('welcome');
   res.sendFile(path.join(__dirname + '/welcome.html'));
 
 });
 
 
-app.get('/v1/page/location', async(req, res) =>{
-  console.log('welcome');
+app.get('/v1/page/location/update', async(req, res) =>{
+  
+  console.log('update location');
   res.sendFile(path.join(__dirname + '/updateLocation.html'));
 
 });
 
 
- app.post('/v1/product/post', async(req, res) =>{
+app.post('/v1/product/post', async(req, res) =>{
     console.log('add product');
-    console.log(req.query.name);
-    console.log(req.query.cost);
-    console.log(req.query.specs);
-    console.log(req.query.manufacturer);
-    console.log(req.query.zipcode);
-    console.log(req.query.address);
-    console.log(req.query.location);
+    // console.log(req.query.name);
+    // console.log(req.query.cost);
+    // console.log(req.query.specs);
+    // console.log(req.query.manufacturer);
+    // console.log(req.query.zipcode);
+    // console.log(req.query.address);
+    // console.log(req.query.location);
 
     var resp = await saveProduct(req.query.name, req.query.cost, req.query.specs, req.query.manufacturer, req.query.zipcode, 
                         req.query.address, req.query.location);
@@ -60,9 +57,8 @@ app.get('/v1/page/location', async(req, res) =>{
     }
  });
 
- //let url = "/v1/location/post?_prod_Id="+ _prod_Id +'&zipcode='+zipcode+'&address='+address+'&location='+location;
 
- app.post('/v1/location/post', async(req, res) =>{
+app.post('/v1/location/post', async(req, res) =>{
   
     console.log('update location of product');
     console.log(req.query._prod_Id);
@@ -115,724 +111,412 @@ function formulateResponse(loc) {
 
 
 ///web3.js code
+//pointing to ganache
 const web3 = new Web3("http://127.0.0.1:7545")
  
  //**NOTE** 'address' value should be changed to the address of the account which sends the transaction */
 const address = '0x181f92EeEabB05Dc04F0C2cbD70753f9ddCa576A' 
-const abi =[
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "last_completed_migration",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "completed",
-        "type": "uint256"
-      }
-    ],
-    "name": "setCompleted",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_product_id",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "zipcode",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "currentAddr",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "locType",
-        "type": "string"
-      }
-    ],
-    "name": "AddProduct",
-    "type": "event"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "_p_id",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "_t_id",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "_u_id",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "products",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "_product_name",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_product_cost",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_specs",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_manufacturer",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_product_date",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_zipcode",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_address",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_location",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "p_cost",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "p_specs",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "manufacturer",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_zipcode",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_addr",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_locType",
-        "type": "string"
-      }
-    ],
-    "name": "newProduct",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "prod_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "getProduct_details",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "_product_name",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_product_cost",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "_product_specs",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "_product_manufacturer",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_product_date",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "_product_zipcode",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "_product_address",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "_product_location",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct SupplyChain.product",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_pId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getRecentProductLocation",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_pId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAllProductLocation",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "_product_id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "zipcode",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "currentAddr",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "locType",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct SupplyChain.Location[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getAllProductIDs",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "putPorductID",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_product_id",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "zipcode",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "currentAddr",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "locType",
-        "type": "string"
-      }
-    ],
-    "name": "AddProduct",
-    "type": "event"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "_p_id",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "_t_id",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "_u_id",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "products",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "_product_name",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_product_cost",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_specs",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_product_review",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "_product_owner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_manufacture_date",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "p_cost",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "p_specs",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "p_review",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_zipcode",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_currentAddr",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_locType",
-        "type": "string"
-      }
-    ],
-    "name": "newProduct",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "prod_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "getProduct_details",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_pId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getRecentProductLocation",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_pId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAllProductLocation",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "_product_id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "zipcode",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "currentAddr",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "locType",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct supply_Chain.Location[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  }
+const abi = [
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_product_id",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "zipcode",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "currentAddr",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "locType",
+				"type": "string"
+			}
+		],
+		"name": "AddProduct",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "_p_id",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "_t_id",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "_u_id",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllProductIDs",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_pId",
+				"type": "uint256"
+			}
+		],
+		"name": "getAllProductLocation",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "_product_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "zipcode",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "currentAddr",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "locType",
+						"type": "string"
+					}
+				],
+				"internalType": "struct SupplyChain.Location[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getProduct_details",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "_product_name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_product_cost",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_product_specs",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_product_manufacturer",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_product_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_product_zipcode",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_product_address",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_product_location",
+						"type": "string"
+					}
+				],
+				"internalType": "struct SupplyChain.product",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_pId",
+				"type": "uint256"
+			}
+		],
+		"name": "getRecentProductLocation",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "p_cost",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "p_specs",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "manufacturer",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_zipcode",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_addr",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_locType",
+				"type": "string"
+			}
+		],
+		"name": "newProduct",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "products",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_product_name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_product_cost",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_product_specs",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_product_manufacturer",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_product_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_product_zipcode",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_product_address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_product_location",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "putPorductID",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_pId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_zipcode",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_currentAddr",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_locType",
+				"type": "string"
+			}
+		],
+		"name": "updateProductLocation",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
 ]
 
-const contAddr = '0x7Fe2031DBc82E79620b16D4C80Ff1E472dE1Cd2b' 
+const contAddr = '0xb8dB0CE12F28198cFA573Ef9Ad5a8f862DfdB425' //0xb8dB0CE12F28198cFA573Ef9Ad5a8f862DfdB425
 const contract = new web3.eth.Contract(abi, contAddr)
 
 async function saveProduct(name, cost, specs, manufacturer, zipcode, address, location) {
@@ -875,9 +559,6 @@ async function getAllLocationsVal(product_id) {
         )
     return val;
 } 
-
-//getAllLocationsVal(20);
-
 
 async function getAllProductIDs() {
     var val=0;
