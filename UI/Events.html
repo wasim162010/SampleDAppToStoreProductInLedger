@@ -8,31 +8,54 @@
         <script type = "text/javascript" language = "javascript">
 
             $(document).ready(function() {
+                $('#latestEvent').val(" ");
+                let loadurl = '/v1/ids/get'
+                        
+                        $.get(loadurl, function (data) {
+                        
+                            for (i = 0; i < data.length; i++) {
+                                var elem = '<option>' + data[i] + '</option>'
+                                $('#pidId').append(elem);
+                            }
 
-                $("#allEvents").click(function(event){
+                        })
+
+                $("#allLocations").click(function(event){
                     
-                    let url = "v1/events/get";
+                    var _prod_Id =$('#pidId').val();
+                    
+                    let url = "/v1/locations/get?_prod_Id="+ _prod_Id;
+                    console.log(url);
 
                     $.get(url, function (data) {
-                        console.log("adding product");
+                        var locs = data[0];
+                        var locs0 = data[0][0];
+                        // console.log(locs);
+                        // console.log(locs0);
+                        // console.log(data.length);
+                        var formattedLocs=""
+                        for(var j=0;j<data.length;j++) {
+                            var curLoc = data[j];
+                            
+                             formattedLocs =  "Product ID: " + curLoc[0] + ". Current location zipcode:  " + curLoc[1] + ". Current address:  " + curLoc[2] +  ". Location type:  " + curLoc[3]  + "/" + formattedLocs 
+                        }
+
+                        $('#latestEvent').val(formattedLocs);
                     })
-
-
 
                 });
 
-                $("#latestEvent").click(function(event){
-                    
-                    let url = "v1/event/get";
-
+                $("#recentLoc").click(function(event){
+                    var _prod_Id =$('#pidId').val();
+                    let url = "/v1/location/get?_prod_Id="+ _prod_Id;
+                   
                     $.get(url, function (data) {
-                        console.log("adding product");
+                        console.log(" recentLoc data")
+                        console.log(data)
+                        $('#latestEvent').val(data);
                     })
 
-
-
                 });
-
             });
 
         </script>
@@ -43,45 +66,31 @@
    
 
     <br />
-    <div>
-        Select Product ID 
-        <select name="productIDs" id="ids">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
-          </select></t>
-          <input type = "button" id = "btnAllEvents" value = "View all events" /> </t>
-         </br />
-          <textarea id="allEvents" name="eventsTxtArea" rows="4" cols="50" />
-    </div>
+    <center>
+        <div> 
+
+                <center>
+                    <h1> Fetch current/all location</h1>
+                        Select Product ID 
+                        <select name="productIDs" id="pidId">
+                          </select></t> 
+                          <input type = "button" id = "recentLoc" value = "View most recent location" /> </t>
+                          <input type = "button" id = "allLocations" value = "View all location" /> </t>
+                          Event(s) </t />
+                          <textarea id="latestEvent" name="eventTxtArea" rows="4" cols="50">
+                </center>
+        </div>
+
+
+    </center>
 
 
     <br />
 
-    <div>
-        Select Product ID <input type="text" id="name" />
-        <select name="productIDs" id="ids">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
-          </select></t>
-          <input type = "button" id = "btnAllEvent" value = "View most recent event" /> </t>
-          Latest event </br />
-          <textarea id="latestEvent" name="eventTxtArea" rows="4" cols="50">
-    </div>
+
 
 </body>
 
 
 
 <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select -->
-
-    <!-- string _product_name;
-        uint _product_cost;
-        string _product_specs; -->
-        <!-- string _product_review; -->
-        <!-- string manufacturer;
-        address _product_owner;
-        uint _manufacture_date; -->

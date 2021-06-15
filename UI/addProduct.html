@@ -10,17 +10,24 @@
             $(document).ready(function() {
 
                 $("#addbtn").click(function(event){
-                    
-                    let url = "v1/product/put";
 
-                    $.put(url, function (data) {
-                        console.log("adding product");
+                    var name = $("#name").val();
+                    var cost = $("#cost").val();
+                    var specs = $("#specs").val();
+                    var manufacturer = $("#manufacturer").val();
+                    var zipcode = $("#zipcode").val();
+                    var address = $("#address").val();
+                    var location = $("#location").val();
+
+                    console.log(name,cost,specs, manufacturer,zipcode,address,location);
+                    let url = "v1/product/post?name="+name+'&cost='+cost+'&specs='+specs+'&manufacturer='+manufacturer+ '&zipcode='+zipcode+'&address='+address+'&location='+location;
+
+                    $.post(url, function (data) {
+                       alert(data);
                     })
 
-
-
                 });
-
+                
             });
 
         </script>
@@ -31,18 +38,22 @@
   
 
     <div> 
+
+<center>
+        <h1>Add new product</h1>
        
         <br/>
         Name <input type="text" id="name" /></t>
         Cost <input type = "text" id = "cost" /> </t>
         specs <input type = "text" id = "specs" /> </t>
-        Manufacturer <input type = "text" id = "manufacturer" /> </t>
-        Owner address <input type = "text" id = "manufacturer" /> </t>
-        Date <input type="date" id="date"> </t> </t>
+        Product Owner  <input type = "text" id = "manufacturer" /> </t>
+        Zipcode <input type="text" id="zipcode"> </t> 
+        Owner address <input type = "text" id = "address" /> </t> 
+        Location <input type = "text" id = "location" /> </t> 
         <br />
-        Add Product </br />
+        <br />
         <input type = "button" id = "addbtn" value = "Add Product" /> 
-    
+</center>
     </div>
 
 </body>
